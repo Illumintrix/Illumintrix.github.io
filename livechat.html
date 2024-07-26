@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App ID Extractor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://images.unsplash.com/photo-1530084583056-6b1b071d2372?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80') no-repeat center center fixed;
+            background-size: cover;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 600px;
+            max-width: 90%;
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 25px;
+            color: #333;
+        }
+        .footer a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Sprinklr Live Chat Runner</h2>
+        <textarea id="jsCode" placeholder="Paste your Copied LiveChat JavaScript code from Sprinklr here"></textarea>
+        <button onclick="extractAndRedirect()">Run Live Chat</button>
+        <div class="footer">
+            By Rahul Meel | <a href="https://www.linkedin.com/in/rahulmeel84/" target="_blank">Let's connect on LinkedIn</a>
+        </div>
+    </div>
+
+    <script>
+        function extractAndRedirect() {
+            const jsCode = document.getElementById('jsCode').value;
+            const appIdMatch = jsCode.match(/"appId":"(.*?)"/);
+            const envMatch = jsCode.match(/https:\/\/([^-.]+)-[^.]+\.sprinklr/);
+    
+            if (appIdMatch && envMatch) {
+                const appId = appIdMatch[1];
+                const prodEnv = envMatch[1];
+                const redirectUrl = `https://live-chat-static.sprinklr.com/test-html/index.html?appId=${appId}&env=${prodEnv}&skin=CLASSIC`;
+                window.location.href = redirectUrl;
+            } else {
+                alert('Failed to extract App ID or Prod Env');
+            }
+        }
+    </script>
+</body>
+</html>
